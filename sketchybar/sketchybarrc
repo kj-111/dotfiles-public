@@ -1,0 +1,101 @@
+#!/bin/bash
+
+CONFIG_DIR="$HOME/.config/sketchybar"
+SKETCHYBAR="${SKETCHYBAR:-$(command -v sketchybar || echo '/opt/homebrew/bin/sketchybar')}"
+
+# Bar Appearance
+bar_config=(
+  height=28
+  position=top
+  color=0x00000000
+  margin=35
+  sticky=on
+)
+"$SKETCHYBAR" --bar "${bar_config[@]}"
+
+# Global Defaults
+default_config=(
+  label.font="JetBrainsMono Nerd Font:Bold:13"
+  icon.drawing=off
+  label.color=0xff1c1e21
+  y_offset=-5
+)
+"$SKETCHYBAR" --default "${default_config[@]}"
+
+# Left
+"$SKETCHYBAR" --add event aerospace_workspace_change
+"$SKETCHYBAR" --add event system_woke
+"$SKETCHYBAR" --add event network_change
+
+space_config=(
+  script="$CONFIG_DIR/plugins/space.sh"
+  label="?"
+)
+"$SKETCHYBAR" --add item space left \
+           --subscribe space aerospace_workspace_change \
+           --set space "${space_config[@]}"
+
+tmux_config=(
+  script="$CONFIG_DIR/plugins/tmux.sh"
+  update_freq=5
+  padding_left=300
+)
+"$SKETCHYBAR" --add item tmux center \
+           --set tmux "${tmux_config[@]}" \
+           --subscribe tmux system_woke
+
+# Right
+clock_config=(
+  update_freq=60
+  script="$CONFIG_DIR/plugins/clock.sh"
+  padding_left=17
+)
+"$SKETCHYBAR" --add item clock right \
+           --set clock "${clock_config[@]}" \
+           --subscribe clock system_woke
+
+# Battery
+battery_config=(
+  update_freq=120
+  updates=when_shown
+  script="$CONFIG_DIR/plugins/battery.sh"
+  padding_left=17
+)
+"$SKETCHYBAR" --add item battery right \
+           --set battery "${battery_config[@]}" \
+           --subscribe battery system_woke
+
+# CPU
+cpu_config=(
+  update_freq=5
+  updates=when_shown
+  script="$CONFIG_DIR/plugins/cpu.sh"
+  padding_left=17
+)
+"$SKETCHYBAR" --add item cpu right \
+           --set cpu "${cpu_config[@]}" \
+           --subscribe cpu system_woke
+
+# RAM
+ram_config=(
+  update_freq=5
+  updates=when_shown
+  script="$CONFIG_DIR/plugins/ram.sh"
+  padding_left=17
+)
+"$SKETCHYBAR" --add item ram right \
+           --set ram "${ram_config[@]}" \
+           --subscribe ram system_woke
+
+# Wifi
+wifi_config=(
+  update_freq=5
+  updates=when_shown
+  script="$CONFIG_DIR/plugins/wifi.sh"
+  padding_left=17
+)
+"$SKETCHYBAR" --add item wifi right \
+           --set wifi "${wifi_config[@]}" \
+           --subscribe wifi network_change system_woke
+
+"$SKETCHYBAR" --update

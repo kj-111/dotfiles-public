@@ -1,0 +1,115 @@
+{
+    "title": "Zenith Control Layer Fix (General)",
+    "rules": [
+        {
+            "description": "Zenith: Patch Control+Option Layer for Vim",
+            "manipulators": [
+                {
+                    "type": "basic",
+                    "description": "Ctrl+Option+D → Ctrl+] (Tag Jump)",
+                    "from": {
+                        "key_code": "d",
+                        "modifiers": {
+                            "mandatory": [
+                                "control",
+                                "option"
+                            ]
+                        }
+                    },
+                    "to": [
+                        {
+                            "key_code": "close_bracket",
+                            "modifiers": [
+                                "control"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "basic",
+                    "description": "Ctrl+Option+S → Ctrl+[ (Escape)",
+                    "from": {
+                        "key_code": "s",
+                        "modifiers": {
+                            "mandatory": [
+                                "control",
+                                "option"
+                            ]
+                        }
+                    },
+                    "to": [
+                        {
+                            "key_code": "open_bracket",
+                            "modifiers": [
+                                "control"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "basic",
+                    "description": "Ctrl+Option+H → Ctrl+/ (Comment/Undo)",
+                    "from": {
+                        "key_code": "h",
+                        "modifiers": {
+                            "mandatory": [
+                                "control",
+                                "option"
+                            ]
+                        }
+                    },
+                    "to": [
+                        {
+                            "key_code": "slash",
+                            "modifiers": [
+                                "control"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "basic",
+                    "description": "Ctrl+Option+5 → Ctrl+\\ (Term/Signal)",
+                    "from": {
+                        "key_code": "5",
+                        "modifiers": {
+                            "mandatory": [
+                                "control",
+                                "option"
+                            ]
+                        }
+                    },
+                    "to": [
+                        {
+                            "key_code": "backslash",
+                            "modifiers": [
+                                "control"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "basic",
+                    "description": "Ctrl+Option+Y → Ctrl+^ (Switch Buffer)",
+                    "from": {
+                        "key_code": "y",
+                        "modifiers": {
+                            "mandatory": [
+                                "control",
+                                "option"
+                            ]
+                        }
+                    },
+                    "to": [
+                        {
+                            "key_code": "6",
+                            "modifiers": [
+                                "control"
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

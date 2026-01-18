@@ -1,0 +1,18 @@
+gui:
+  border: "single"
+  nerdFontsVersion: "3"
+  showIcons: false
+  showRandomTip: false
+  showCommandLog: false
+  showBottomLine: false
+
+git:
+  paging:
+    colorArg: always
+    pager: less -R
+  branchLogCmd: "git log --graph --color=always --abbrev-commit --decorate --date=relative --pretty=medium {{branchName}} --"
+
+os:
+  editPreset: 'nvim'
+
+disableStartupPopups: true

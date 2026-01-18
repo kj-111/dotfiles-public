@@ -1,0 +1,34 @@
+{
+  "title": "Left Option to Hyper Key",
+  "rules": [
+    {
+      "description": "Map left_option to Hyper (Control + Option + Command)",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "left_option",
+            "modifiers": {
+              "optional": ["any"]
+            }
+          },
+          "to": [
+            {
+              "key_code": "left_option",
+              "modifiers": [
+                "left_control",
+                "left_option",
+                "left_command"
+              ]
+            }
+          ],
+          "to_if_alone": [
+            {
+              "key_code": "left_option"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,112 @@
+# ---- SETTINGS ----
+default-root-container-layout = "accordion"
+start-at-login = true
+enable-normalization-flatten-containers = true
+enable-normalization-opposite-orientation-for-nested-containers = true
+accordion-padding = 40
+automatically-unhide-macos-hidden-apps = true
+
+# Startup Commands
+after-startup-command = [
+  'exec-and-forget sketchybar',
+  'exec-and-forget open -a "Ghostty"',
+  'exec-and-forget open -a "Obsidian"'
+]
+
+exec-on-workspace-change = ['/bin/bash', '-c', 'sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE']
+
+[gaps]
+inner.horizontal = 0
+inner.vertical = 0
+outer.left = 0
+outer.right = 0
+outer.top = 0
+outer.bottom = 0
+
+# ---- WINDOW RULES ----
+# Floating Apps
+[[on-window-detected]]
+if.app-id = 'com.apple.Notes'
+run = 'layout floating'
+[[on-window-detected]]
+if.app-id = 'com.apple.iCal'
+run = 'layout floating'
+[[on-window-detected]]
+if.app-id = 'com.apple.reminders'
+run = 'layout floating'
+[[on-window-detected]]
+if.app-id = 'com.apple.finder'
+run = 'layout floating'
+[[on-window-detected]]
+if.app-id = 'com.apple.ActivityMonitor'
+run = 'layout floating'
+[[on-window-detected]]
+if.app-id = 'com.apple.Music'
+run = 'layout floating'
+[[on-window-detected]]
+if.app-id = 'com.apple.Preview'
+run = 'layout floating'
+
+# Workspace Pinning
+[[on-window-detected]]
+if.app-id = 'com.mitchellh.ghostty'
+run = 'move-node-to-workspace 1'
+[[on-window-detected]]
+if.app-id = 'com.apple.Safari'
+run = 'move-node-to-workspace 2'
+[[on-window-detected]]
+if.app-id = 'md.obsidian'
+run = 'move-node-to-workspace 3'
+[[on-window-detected]]
+if.app-id = 'com.remarkable.desktop'
+run = 'move-node-to-workspace 9'
+[[on-window-detected]]
+if.app-id = 'com.wacom.WacomCenter'
+run = 'move-node-to-workspace 9'
+
+# ---- KEYBINDINGS ----
+[mode.main.binding]
+# Focus (Hyper)
+alt-ctrl-cmd-h = 'focus left'
+alt-ctrl-cmd-j = 'focus down'
+alt-ctrl-cmd-k = 'focus up'
+alt-ctrl-cmd-l = 'focus right'
+alt-ctrl-cmd-space = 'focus-back-and-forth'
+
+# Workspace Switching
+alt-ctrl-cmd-1 = 'workspace 1'
+alt-ctrl-cmd-2 = 'workspace 2'
+alt-ctrl-cmd-3 = 'workspace 3'
+alt-ctrl-cmd-4 = 'workspace 4'
+alt-ctrl-cmd-5 = 'workspace 5'
+alt-ctrl-cmd-9 = 'workspace 9'
+
+# Move Node (Hyper+Shift)
+alt-ctrl-cmd-shift-h = 'move left'
+alt-ctrl-cmd-shift-j = 'move down'
+alt-ctrl-cmd-shift-k = 'move up'
+alt-ctrl-cmd-shift-l = 'move right'
+alt-ctrl-cmd-shift-1 = 'move-node-to-workspace --focus-follows-window 1'
+alt-ctrl-cmd-shift-2 = 'move-node-to-workspace --focus-follows-window 2'
+alt-ctrl-cmd-shift-3 = 'move-node-to-workspace --focus-follows-window 3'
+alt-ctrl-cmd-shift-4 = 'move-node-to-workspace --focus-follows-window 4'
+alt-ctrl-cmd-shift-5 = 'move-node-to-workspace --focus-follows-window 5'
+alt-ctrl-cmd-shift-9 = 'move-node-to-workspace --focus-follows-window 9'
+
+# Layouts & Misc
+alt-ctrl-cmd-minus = 'resize smart -50'
+alt-ctrl-cmd-equal = 'resize smart +50'
+alt-ctrl-cmd-shift-f = 'layout floating tiling'
+alt-ctrl-cmd-shift-t = 'layout tiles accordion'
+alt-ctrl-cmd-enter = 'fullscreen'
+alt-ctrl-cmd-x = 'close'
+alt-ctrl-cmd-shift-b = 'balance-sizes'
+alt-ctrl-cmd-b = 'exec-and-forget sketchybar --bar hidden=toggle'
+
+# App Launchers (Hyper)
+alt-ctrl-cmd-s = 'exec-and-forget open -a /Applications/Safari.app'
+alt-ctrl-cmd-t = 'exec-and-forget open -a /Applications/Ghostty.app'
+alt-ctrl-cmd-o = 'exec-and-forget open -a /Applications/Obsidian.app'
+alt-ctrl-cmd-f = 'exec-and-forget open -a /System/Library/CoreServices/Finder.app'
+alt-ctrl-cmd-m = 'exec-and-forget open -a /System/Applications/Music.app'
+alt-ctrl-cmd-n = 'exec-and-forget open -a /System/Applications/Notes.app'
