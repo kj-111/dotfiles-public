@@ -8,8 +8,9 @@ My macOS configuration files.
 - **ghostty** - Terminal emulator
 - **karabiner** - Keyboard customization (Hyper key, Caps Lock → Ctrl)
 - **lazygit** - Git TUI
-- **nvim** - Neovim config
+- **nvim** - Neovim config (mini.nvim, nvim-jdtls, markview)
 - **sketchybar** - Status bar
+- **starship** - Prompt
 - **tmux** - Terminal multiplexer
 - **zshrc** - Zsh configuration
 
@@ -32,6 +33,9 @@ ln -s /path/to/dotfiles-public/aerospace ~/.config/aerospace
 
 # Symlink zshrc
 ln -s /path/to/dotfiles-public/zshrc ~/.zshrc
+
+# Symlink starship
+ln -s /path/to/dotfiles-public/starship/starship.toml ~/.config/starship.toml
 ```
 
 ## Dependencies
@@ -42,6 +46,7 @@ ln -s /path/to/dotfiles-public/zshrc ~/.zshrc
 - [lazygit](https://github.com/jesseduffield/lazygit)
 - [Neovim](https://neovim.io)
 - [Sketchybar](https://github.com/FelixKratz/SketchyBar)
+- [Starship](https://starship.rs)
 - [tmux](https://github.com/tmux/tmux) + [TPM](https://github.com/tmux-plugins/tpm)
 - [zoxide](https://github.com/ajeetdsouza/zoxide)
 - [fzf](https://github.com/junegunn/fzf)
