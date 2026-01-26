@@ -9,36 +9,7 @@ function M.setup()
   end
 
   -- Server configuration (Neovim 0.11+ native API)
-  -- NOTE: vim.lsp.config/enable zijn experimentele APIs
-  -- FALLBACK: Als dit breekt, installeer "neovim/nvim-lspconfig" en gebruik:
-  --   require("lspconfig").rust_analyzer.setup({ capabilities = capabilities })
-  vim.lsp.config("rust_analyzer", {
-    cmd = { "rust-analyzer" },
-    filetypes = { "rust" },
-    root_markers = { "Cargo.toml", ".git" },
-    capabilities = capabilities,
-    settings = {
-      ["rust-analyzer"] = {
-        cargo = { allFeatures = true },
-        checkOnSave = { command = "clippy" },
-        procMacro = { enable = true },
-      },
-    },
-  })
-
-  -- Java (met debug bundles via Mason)
-  local mason = vim.fn.stdpath("data") .. "/mason/packages"
-  local bundles = {}
-  vim.list_extend(bundles, vim.fn.glob(mason .. "/java-debug-adapter/extension/server/*.jar", true, true))
-  vim.list_extend(bundles, vim.fn.glob(mason .. "/java-test/extension/server/*.jar", true, true))
-
-  vim.lsp.config("jdtls", {
-    cmd = { "jdtls" },
-    filetypes = { "java" },
-    root_markers = { "pom.xml", "build.gradle", ".git" },
-    capabilities = capabilities,
-    init_options = { bundles = bundles },
-  })
+  -- NOTE: Java wordt geconfigureerd via ftplugin/java.lua met nvim-jdtls
 
   -- Python
   vim.lsp.config("pylsp", {
@@ -56,23 +27,17 @@ function M.setup()
     capabilities = capabilities,
   })
 
-  -- LSP servers niet automatisch starten (gebruik <leader>ol om aan te zetten)
-  -- vim.lsp.enable({ "rust_analyzer", "jdtls", "pylsp", "ts_ls" })
+  -- XML (voor pom.xml)
+  vim.lsp.config("lemminx", {
+    cmd = { "lemminx" },
+    filetypes = { "xml", "xsd", "xsl", "xslt", "svg" },
+    root_markers = { "pom.xml", ".git" },
+    capabilities = capabilities,
+  })
 
-  -- Toggle LSP (globaal, altijd beschikbaar)
-  local servers = { "rust_analyzer", "jdtls", "pylsp", "ts_ls" }
-  vim.keymap.set("n", "<leader>ol", function()
-    local clients = vim.lsp.get_clients({ bufnr = 0 })
-    if #clients > 0 then
-      for _, client in ipairs(clients) do
-        vim.lsp.stop_client(client.id)
-      end
-      vim.notify("LSP Stopped", vim.log.levels.INFO)
-    else
-      vim.lsp.enable(servers)
-      vim.notify("LSP Started", vim.log.levels.INFO)
-    end
-  end, { desc = "Toggle LSP" })
+  -- LSP servers niet automatisch starten (behalve lemminx voor pom.xml)
+  -- Per-taal toggles in ftplugin zijn beter (zie ftplugin/java.lua)
+  vim.lsp.enable({ "lemminx" })
 
   -- Keymaps (on attach)
   vim.api.nvim_create_autocmd("LspAttach", {
@@ -83,8 +48,11 @@ function M.setup()
         vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
       end
 
-      -- Neovim 0.11+ has default LSP keybindings (grn, gra, grr, etc.)
-      -- We override some to use mini.pick instead of quickfix
+      -- Inlay hints
+      vim.lsp.inlay_hint.enable(true, { bufnr = event.buf })
+
+      -- Neovim 0.11+ heeft standaard LSP keybindings (grn, gra, grr, etc.)
+      -- We overschrijven sommige om mini.pick te gebruiken ipv quickfix
       local has_extra, extra = pcall(require, "mini.extra")
       if has_extra then
         map("grr", function() extra.pickers.lsp({ scope = "references" }) end, "References")
@@ -113,14 +81,13 @@ function M.setup()
   })
 
   -- Mason (tool installer)
-  -- rust-analyzer komt via rustup, jdtls via Mason
   require("mason").setup()
   require("mason-tool-installer").setup({
     ensure_installed = {
-      "codelldb",
       "jdtls",
       "java-debug-adapter",
       "java-test",
+      "lemminx",
       "python-lsp-server",
       "typescript-language-server",
     },

@@ -1,41 +1,42 @@
 local map = vim.keymap.set
 
--- Centered scrolling
-map("n", "n", "nzz")
-map("n", "N", "Nzz")
-map("n", "<C-d>", "<C-d>zz")
-map("n", "<C-u>", "<C-u>zz")
-
 -- Buffers
 map("n", "<leader><leader>", "<C-^>", { desc = "Alternate Buffer" })
 map("n", "<C-h>", "<cmd>bp<CR>", { desc = "Prev Buffer" })
 map("n", "<C-l>", "<cmd>bn<CR>", { desc = "Next Buffer" })
 
 -- Line bubbling
-map("v", "<C-j>", ":m '>+1<CR>gv=gv", { desc = "Move Down" })
-map("v", "<C-k>", ":m '<-2<CR>gv=gv", { desc = "Move Up" })
 map("n", "<C-j>", "<cmd>m .+1<CR>==", { desc = "Move Down" })
 map("n", "<C-k>", "<cmd>m .-2<CR>==", { desc = "Move Up" })
+map("v", "<C-j>", ":m '>+1<CR>gv=gv", { desc = "Move Down" })
+map("v", "<C-k>", ":m '<-2<CR>gv=gv", { desc = "Move Up" })
 map("i", "<C-j>", "<Esc><cmd>m .+1<CR>==gi", { desc = "Move Down" })
 map("i", "<C-k>", "<Esc><cmd>m .-2<CR>==gi", { desc = "Move Up" })
 
 -- Editing
 map("v", "<", "<gv")
 map("v", ">", ">gv")
-map("n", "<leader>r", ":%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>", { desc = "Replace Word" })
 
 -- Toggles
 map("n", "<leader>os", function()
   vim.o.spell = not vim.o.spell
 end, { desc = "Toggle Spell" })
-
-map("n", "<leader>od", function()
-  vim.diagnostic.enable(not vim.diagnostic.is_enabled())
-end, { desc = "Toggle Diagnostics" })
+map("n", "<leader>ox", function()
+  local line = vim.api.nvim_get_current_line()
+  if line:match("%[ %]") then
+    local timestamp = os.date("%Y-%m-%d %H:%M")
+    line = line:gsub("%[ %]", "[x]", 1) .. " -- " .. timestamp
+  elseif line:match("%[x%]") then
+    line = line:gsub("%[x%]", "[ ]", 1):gsub(" %-%- %d%d%d%d%-%d%d%-%d%d %d%d:%d%d$", "")
+  end
+  vim.api.nvim_set_current_line(line)
+end, { desc = "Toggle Checkbox" })
 
 -- File explorer
 map("n", "-", function()
-  require("mini.files").open(vim.api.nvim_buf_get_name(0), true)
+  if not MiniFiles.close() then
+    MiniFiles.open(vim.api.nvim_buf_get_name(0), true)
+  end
 end, { desc = "Files" })
 
 -- Quickfix
@@ -52,14 +53,28 @@ map("n", "[q", "<cmd>cprev<CR>")
 map("n", "]d", function() vim.diagnostic.jump({ count = 1 }) end, { desc = "Next Diagnostic" })
 map("n", "[d", function() vim.diagnostic.jump({ count = -1 }) end, { desc = "Prev Diagnostic" })
 
+-- Save
+map({ "n", "i" }, "<C-s>", "<cmd>w<CR>", { desc = "Save" })
+
 -- Fast escape
 map("i", "jk", "<Esc>")
+map("n", "<Esc>", "<cmd>nohlsearch<Bar>echon ''<CR>")
+map("t", "jk", "<C-\\><C-n>")
 map("t", "<Esc><Esc>", "<C-\\><C-n>")
 
--- Rust Development
+-- Code
 map("n", "<leader>cf", vim.lsp.buf.format, { desc = "Format" })
-map("n", "<leader>cb", "<cmd>!cargo build<CR>", { desc = "Cargo Build" })
-map("n", "<leader>cr", "<cmd>!cargo run<CR>", { desc = "Cargo Run" })
-map("n", "<leader>ct", "<cmd>!cargo test<CR>", { desc = "Cargo Test" })
-map("n", "<leader>cc", "<cmd>!cargo check<CR>", { desc = "Cargo Check" })
-map("n", "<leader>cl", "<cmd>!cargo clippy<CR>", { desc = "Cargo Clippy" })
+map("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "Code Action" })
+map("n", "<leader>cr", ":%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>", { desc = "Replace Word" })
+map("n", "<leader>cd", function()
+  vim.diagnostic.enable(not vim.diagnostic.is_enabled())
+end, { desc = "Toggle Diagnostics" })
+map("n", "<leader>ci", function()
+  vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+end, { desc = "Toggle Inlay Hints" })
+
+-- Muis scroll uit (animatie conflicteert)
+map({ "n", "v", "i" }, "<ScrollWheelUp>", "<Nop>")
+map({ "n", "v", "i" }, "<ScrollWheelDown>", "<Nop>")
+
+-- Java keymaps zijn in ftplugin/java.lua

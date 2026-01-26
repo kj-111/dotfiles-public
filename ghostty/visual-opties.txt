@@ -1,0 +1,35 @@
+# Ghostty Visual Opties
+
+## Transparantie & Blur
+background-opacity = 0.95          # Subtiele transparantie (0.0 - 1.0)
+background-blur-radius = 20        # Blur achter transparantie (macOS)
+
+## Padding
+window-padding-y = 8               # Meer verticale ademruimte
+
+## Font
+font-thicken = true                # Iets dikkere fonts (macOS)
+bold-is-bright = true              # Helderdere bold tekst
+
+## Splits
+unfocused-split-opacity = 0.85     # Dim inactieve splits
+
+## Cursor
+cursor-style-blink = true          # Blinkende cursor
+cursor-color = #88C0D0             # Cursor kleur (hex of X11 naam)
+
+## Leesbaarheid
+minimum-contrast = 1.1             # Betere contrast ratio
+
+## Smooth & Animatie
+# Ghostty is GPU-accelerated, dus inherent smooth.
+# Extra opties:
+window-vsync = true                # VSync aan (default, voorkomt tearing)
+freetype-load-flags = default      # Font rendering (of: no-hinting voor smoother)
+
+## Cursor animatie
+cursor-opacity = 1.0               # Cursor transparantie (0.0 - 1.0)
+
+## Visuele feedback
+visual-bell = true                 # Flash ipv geluid bij bell
+selection-invert-fg-bg = true      # Selectie inverteert kleuren

@@ -38,9 +38,10 @@ space_config=(
 tmux_config=(
   script="$CONFIG_DIR/plugins/tmux.sh"
   update_freq=5
-  padding_left=300
+  padding_left=61.8
 )
-"$SKETCHYBAR" --add item tmux center \
+"$SKETCHYBAR" --add item tmux left \
+           --move tmux after space \
            --set tmux "${tmux_config[@]}" \
            --subscribe tmux system_woke
 

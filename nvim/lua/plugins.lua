@@ -1,6 +1,5 @@
 return {
   -- LSP (Neovim 0.11+ native vim.lsp.config API)
-  -- LSP progress: j-hui/fidget.nvim (verwijderd, te veel noise)
   {
     "williamboman/mason.nvim",
     opts = {},
@@ -35,12 +34,14 @@ return {
     priority = 1000,
     config = function()
       vim.cmd.colorscheme("nord")
-      -- Match terminal background
       local hl = vim.api.nvim_set_hl
-      hl(0, "Normal", { bg = "NONE" })
-      hl(0, "NormalFloat", { bg = "NONE" })
-      hl(0, "SignColumn", { bg = "NONE" })
-      hl(0, "EndOfBuffer", { bg = "NONE" })
+
+      -- Nord kleuren aanpassen (na plugins laden)
+      vim.schedule(function()
+        local nord_bg = "#2E3440"
+        hl(0, "NormalFloat", { bg = nord_bg })
+        hl(0, "FloatBorder", { bg = nord_bg, fg = "#4C566A" })
+      end)
     end,
   },
 
@@ -50,11 +51,42 @@ return {
     build = ":TSUpdate",
     main = "nvim-treesitter.configs",
     opts = {
-      ensure_installed = { "bash", "java", "rust", "toml", "lua", "markdown", "markdown_inline", "query", "vim", "vimdoc" },
+      ensure_installed = {
+        "bash",
+        "java",
+        "javascript",
+        "json",
+        "lua",
+        "markdown",
+        "markdown_inline",
+        "python",
+        "query",
+        "toml",
+        "typescript",
+        "vim",
+        "vimdoc",
+        "xml",
+      },
       auto_install = true,
       highlight = { enable = true },
       indent = { enable = true },
     },
+  },
+  {
+    "nvim-treesitter/nvim-treesitter-textobjects",
+    dependencies = "nvim-treesitter/nvim-treesitter",
+    config = function()
+      require("config.textobjects").setup()
+    end,
+  },
+
+  -- Markdown rendering
+  {
+    "OXY2DEV/markview.nvim",
+    ft = { "markdown", "quarto", "rmd" },
+    config = function()
+      require("config.markview").setup()
+    end,
   },
 
   -- Mini.nvim (core editing suite)
@@ -72,4 +104,23 @@ return {
       require("dodona").setup()
     end,
   },
+
+  -- TMC (TestMyCode) voor MOOC Java
+  {
+    dir = "~/temple/opensource/tmc.nvim",
+    dependencies = { "echasnovski/mini.nvim" },
+    config = function()
+      require("tmc").setup({
+        course_name = "java-programming-i",
+        download_dir = "~/temple/vaults/obsidian-jean/code/java-practice/helsinki-mooc/exercices/java1",
+      })
+    end,
+  },
+
+  -- Java (nvim-jdtls voor betere Java support)
+  {
+    "mfussenegger/nvim-jdtls",
+    ft = "java",
+  },
+
 }

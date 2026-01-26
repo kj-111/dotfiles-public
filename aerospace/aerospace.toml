@@ -58,6 +58,14 @@ run = 'move-node-to-workspace 2'
 if.app-id = 'md.obsidian'
 run = 'move-node-to-workspace 3'
 [[on-window-detected]]
+if.app-id = 'com.apple.Safari.WebApp.36D60C35-7B32-42AC-A478-69AB9F1DBE6E'
+run = 'move-node-to-workspace 4'
+
+
+[[on-window-detected]]
+if.app-id = 'com.jetbrains.intellij'
+run = 'move-node-to-workspace 5'
+[[on-window-detected]]
 if.app-id = 'com.remarkable.desktop'
 run = 'move-node-to-workspace 9'
 [[on-window-detected]]
@@ -110,3 +118,4 @@ alt-ctrl-cmd-o = 'exec-and-forget open -a /Applications/Obsidian.app'
 alt-ctrl-cmd-f = 'exec-and-forget open -a /System/Library/CoreServices/Finder.app'
 alt-ctrl-cmd-m = 'exec-and-forget open -a /System/Applications/Music.app'
 alt-ctrl-cmd-n = 'exec-and-forget open -a /System/Applications/Notes.app'
+alt-ctrl-cmd-i = 'exec-and-forget open -a "/Applications/IntelliJ IDEA.app"'

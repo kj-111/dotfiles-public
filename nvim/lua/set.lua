@@ -30,10 +30,14 @@ vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 vim.opt.foldlevel = 99
 vim.opt.foldlevelstart = 99
 
--- Persistence
-vim.opt.undofile = true
-vim.opt.undodir = vim.fn.stdpath("state") .. "/undo"
-vim.opt.confirm = true
+-- Persistence & Recovery
+vim.opt.undofile = true                                 -- undo history blijft bewaard na sluiten
+vim.opt.undodir = vim.fn.stdpath("state") .. "/undo"    -- ~/.local/state/nvim/undo/
+vim.opt.swapfile = true                                 -- swap files voor crash recovery
+vim.opt.backup = true                                   -- backup bij elke save
+vim.opt.backupdir = vim.fn.stdpath("state") .. "/backup"-- ~/.local/state/nvim/backup/
+vim.opt.autowriteall = false                            -- handmatig saven (default)
+vim.opt.confirm = true                                  -- vraag bevestiging bij unsaved changes
 
 -- Editing
 vim.opt.tabstop = 4
@@ -64,6 +68,9 @@ vim.opt.listchars = {
 -- Clipboard
 vim.opt.clipboard = "unnamedplus"
 
+-- Cursor altijd blok
+vim.opt.guicursor = "a:block"
+
 -- Disable unused providers
 vim.g.loaded_python3_provider = 0
 vim.g.loaded_ruby_provider = 0
@@ -72,6 +79,7 @@ vim.g.loaded_node_provider = 0
 
 -- Disable netrw (using mini.files)
 vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
 
 -- Autocmds
 local augroup = function(name)

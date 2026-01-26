@@ -1,0 +1,17 @@
+# Starship Prompt - Alles op één regel
+"$schema" = 'https://starship.rs/config-schema.json'
+
+add_newline = false
+format = "$directory$git_branch$git_status$cmd_duration$character"
+continuation_prompt = "[.](bright-black) "
+
+[character]
+success_symbol = "[❯](yellow)"
+error_symbol = "[❯](red)"
+
+[cmd_duration]
+min_time = 2000
+
+# Disable onnodige modules
+[package]
+disabled = true

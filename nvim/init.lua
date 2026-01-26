@@ -1,3 +1,6 @@
+-- Neovim: simpel, transparant, geen bloat.
+-- Tekst in, tekst uit. Config is Lua. Niks meer.
+
 -- Core settings
 require("set")
 require("remap")
